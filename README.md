@@ -1,6 +1,5 @@
-# compMethods
+# Computational Methods in Economics
 
-Computational Methods in Economics
 
 Various ways to simluate economic models or derive numerical solutions
 
