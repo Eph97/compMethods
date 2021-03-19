@@ -1,0 +1,149 @@
+% {{{
+\documentclass[12pt]{article}
+\usepackage[tmargin=0.75in,bmargin=0.75in,lmargin=0.9in,rmargin=0.9in]{geometry}
+
+\usepackage{amsmath}
+\include{latexsym}
+\include{amssymb}
+\usepackage{enumitem}
+\usepackage[symbol, hang]{footmisc}
+\usepackage{indentfirst}
+\usepackage{amssymb}
+\usepackage{graphicx,psfrag}
+
+\def\F{\mathcal{F}}
+\def\M{\mathcal{M}}
+\def\dimspec{\mathfrak{D}}
+\def\htop{h_{top}}
+\def\trans{\mathcal{T}}
+\def\G{\mathcal{G}}
+\newcommand{\Z}{\mathbb{Z}}
+\pagenumbering{gobble}
+\def\O{\mathcal{O}}
+
+\newcommand\NoIndent[1]{%
+  \begingroup
+  \par
+  \parshape0
+  #1\par
+  \endgroup
+}
+% }}}
+
+% Title {{{
+\begin{document}
+
+\begin{center}
+{\large \bf ComputationalMethods }   \\ \large pset2 \\ Ephraim Sutherland
+\end{center}
+% }}}
+
+\subsection*{Question 1}
+
+\begin{enumerate}
+
+\item 
+p is [6.931894087109903, 6.931894087109903] and the iteration number is 40 \\ 
+Now increasing demand by 10\% \\
+p is [7.3173202293587245, 7.032580688033674] and the iteration number is 39
+
+\item 
+	Using Newton's method (with analytic jacobian) \\ 
+x is [6.9315098138708215, 6.9315098138708215] and the iteration number is 37 \\ 
+Now increasing demand by 10\% \\ 
+x is [7.316899080901866, 7.032155448480992] and the iteration number is 16 \\
+
+
+\end{enumerate} 
+
+\subsection*{Question 2}
+
+\begin{enumerate}
+	\item  Solving the FOC, we can see that if we let $u(c) = \frac{1}{c}$ then we have
+		 \begin{align*}
+			 \underbrace{\max_{a_1} u(a_0 + y_0 - a_1) + \beta u((1+r)a_1 + y_1)}_\text{$ g(a_1) $} &= 0
+		\end{align*}
+		Thus we simply find the root of $g$. This then becomes
+		\begin{align*}
+			-u'(a_0 + y_0 - a_1) + (1+r)\beta u'((1+r)a_1 + y_1) &= 0 \\ 
+			- \frac{1}{a_0 + y_0 - a_1} + \frac{\beta(1+r)}{(1+r)a_1 + y_1} &= 0 \\
+		\end{align*}
+		Solving for $a_1$ becomes
+		\begin{align*}
+			\frac{\beta(1+r)}{(1+r)a_1 + y_1} &= \frac{1}{a_0 + y_0 - a_1} \\
+			\beta(1+r)a_0 + \beta(1+r)y_0 - \beta(1+r)a_1  &= (1+r)a_1 + y_1  \\
+			\beta(1+r)a_0 + \beta(1+r)y_0 - y_1 &= (1+r)a_1 +\beta(1+r)a_1 \\
+			a_1 &= \frac{\beta(1+r)a_0 + \beta(1+r)y_0 - y_1}{(1+ \beta)(1+r)}
+		\end{align*}
+
+	\item Recall that we were able to reduce our value function to
+		$$ \underbrace{\max_{a_1} u(a_0 + y_0 - a_1) + \beta u((1+r)a_1 + y_1)}_\text{$ g(a_1) $} = 0$$ 
+		using our optimal $a_1$ we can then reduce this to a function of $a_0$. Let $v$ be the value function, then we have
+
+		$$v(a_0) = u(a_0 + y_0 -  \frac{\beta(1+r)a_0 + \beta(1+r)y_0 - y_1}{(1+ \beta)(1+r)}) + \beta u((1+r)\frac{\beta(1+r)a_0 + \beta(1+r)y_0 - y_1}{(1+ \beta)(1+r)}  +y_1)$$
+
+	\item Using Newton's method.
+with
+$\beta =0.9$
+$a_0=5$
+$y_0 =20$
+$y_1 =5$
+$r=0.1$
+
+optimal $a_1$ is 9.44976076555024 and the iteration number is 5
+
+We also computed an Analytic answer of 9.44976076555024. This is very close to the answer computed using newton's method. In fact it's actually exactly the same which I find surprising (I promise I computed it analytically though).
+
+
+\item Using Brent's method. The root (optimal $a_1$) is 9.452845792729457
+
+	
+\end{enumerate}
+
+\subsection*{Question 3}
+\begin{enumerate}
+	\item FOC: 
+		$$-u'(a_0 + y_0 - a_1) + \pi (1+r)u'((1+r)a_1 + y^{H}) + (1-\pi)(1+r)u'((1+r)a_1 + y^{L}) = 0$$
+		using our function $u(c) = log(c)$ gives us 
+		$$\frac{-1}{a_0 + y_0 - a_1} + \frac{\pi (1+r)}{(1+r)a_1 + y^{H}} + \frac{(1+\pi)(1+r)}{(1+r)a_1 + y^{L}} = 0$$
+
+	\item solving for $a_1$:
+\\		Using Newton's method.
+\\$a_1$ is 10.18783705339048 and the iteration number is 6
+\\Using Brent's method.
+\\$a_1$ is 10.187912584223925
+\\ We can clearly see that 10.1879 is larger than 9.4498 from question 2. Thus individuals with our given felicity function save more when there is uncertainty.
+
+\item Without uncertainty:
+\\$a_0$: 0, optimal $a_1$ is 7.0813397128751, with value: 5.159216446967338
+\\$a_0$: 1, optimal $a_1$ is 7.555023923444977, with value: 5.235652357326654
+\\$a_0$: 2, optimal $a_1$ is 8.028708133971293, with value: 5.309264750132845
+\\$a_0$: 3, optimal $a_1$ is 8.502392344497608, with value: 5.380254521806624
+\\$a_0$: 4, optimal $a_1$ is 8.976076555023923, with value: 5.448801892664775
+\\$a_0$: 5, optimal $a_1$ is 9.44976076555024, with value: 5.515069146297081
+\\$a_0$: 6, optimal $a_1$ is 9.923444976076556, with value: 5.579202930432368
+\\$a_0$: 7, optimal $a_1$ is 10.397129186602873, with value: 5.641336200797893
+\\$a_0$: 8, optimal $a_1$ is 10.870813397129188, with value: 5.7015898723587615
+\\$a_0$: 9, optimal $a_1$ is 11.344497607655503, with value: 5.760074229189525
+\\$a_0$: 10, optimal $a_1$ is 11.818181818181817, with value: 5.816890134066869
+
+With uncertainty:
+\\$a_0$: 0, optimal $a_1$ is 7.951495482645849, with value: 3.996386001921955
+\\$a_0$: 1, optimal $a_1$ is 8.395335317574846, with value: 4.051246888021469
+\\$a_0$: 2, optimal $a_1$ is 8.84104120272266, with value: 4.104039432261872
+\\$a_0$: 3, optimal $a_1$ is 9.288453187251053, with value: 4.154922166236992
+\\$a_0$: 4, optimal $a_1$ is 9.737427993787554, with value: 4.2040354365051895
+\\$a_0$: 5, optimal $a_1$ is 10.18783705339048, with value: 4.2515041310105
+\\$a_0$: 6, optimal $a_1$ is 10.63956478685629, with value: 4.297439910854835
+\\$a_0$: 7, optimal $a_1$ is 11.092507101967277, with value: 4.341943050919057
+\\$a_0$: 8, optimal $a_1$ is 11.546570079364056, with value: 4.385103968638063
+\\$a_0$: 9, optimal $a_1$ is 12.001668822787405, with value: 4.427004502221634
+\\$a_0$: 10, optimal $a_1$ is 12.45772645233553, with value: 4.467718986081811
+
+Thus we can see that the value is less for every $a_0$ when we introduce uncertainty.
+
+
+\end{enumerate}
+\end{document}
+
+
