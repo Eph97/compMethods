@@ -10,3 +10,9 @@ Various ways to simluate economic models or derive numerical solutions
 # 3. Newton-Raphsom in Julia
 
 # 4. Simulating Neoclassical Growth model on a grid with shocks
+
+# 5. Simulating Neoclassical Growth model on a grid with shocks
+
+# 6. Simulating Neoclassical Growth model on a grid with shocks
+
+# 7. Simulating Neoclassical Growth model on a grid with shocks
