@@ -15,4 +15,4 @@ Various ways to simluate economic models or derive numerical solutions
 
 # 6. Simulating Neoclassical Growth model on a grid with shocks
 
-# 7. Simulating Neoclassical Growth model on a grid with shocks
+# 7. An implementation of Gauss-Hermite Quadrature and a simple consumption-savings problem
