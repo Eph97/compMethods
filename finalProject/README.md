@@ -1,1 +1,1 @@
-#Exploring optimal social distancing policy during a pandemic
+# Exploring optimal social distancing policy during a pandemic
