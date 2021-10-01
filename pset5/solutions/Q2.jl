@@ -119,6 +119,7 @@ t=100
 
 # # (a)
 plot_a1 = plot(k, vsol, label=["value function good state" "value function bad state"], title="Value function", xlabel=L"k", ylabel=L"V(k)", legend=:topleft)
+
 plot_a2 = plot(k, [k[g] k], label=["Policy rule, good state" "Policy rule, bad state" "45-degree line"], title="Policy rule", xlabel=L"k", ylabel=L"k'", legend=:topleft)
 
 # # (b)
@@ -139,13 +140,13 @@ plot_b4 = plot(0:t, [I_t[1:t+1] ],  title=L"Investment($k_0=%$k0$)",
 	       xlabel=L"t", label=L"I_t", marker=3, legend=:topright) 
 # legend!(bbox_to_anchor=[1.05,1],loc=2,borderaxespad=0)
 
-plot_a = plot(plot_a1, plot_a2, layout=2, size = (800,600))
-savefig(plot_a, "plot_a")
+# plot_a = plot(plot_a1, plot_a2, layout=2, size = (800,600))
+# savefig(plot_a, "plot_a")
 
-plot_b = plot(plot_b1, plot_b2, plot_b3, plot_b4, layout=4, size = (800,600))
-savefig(plot_b, "plot_b")
+# plot_b = plot(plot_b1, plot_b2, plot_b3, plot_b4, layout=4, size = (800,600))
+# savefig(plot_b, "plot_b")
 
-# plot(plot_a1, plot_a2, plot_b1, plot_b2, plot_b3, plot_b4, layout=(3,2), size = (800,600))
+plot(plot_a1, plot_a2, plot_b1, plot_b2, plot_b3, plot_b4, layout=(3,2), size = (800,600))
 println("\n k_t: mean = $(mean(k_t)) \n std = $(stdm(k_t, mean(k_t))) \n std/mean $(stdm(k_t, mean(k_t))/ mean(k_t))")
 println("\n f_t: mean = $(mean(f_t)) \n std = $(stdm(f_t, mean(f_t))) \n std/mean $(stdm(f_t, mean(f_t))/ mean(f_t))")
 println("\n c_t: mean = $(mean(c_t)) \n std = $(stdm(c_t, mean(c_t))) \n std/mean $(stdm(c_t, mean(c_t))/ mean(c_t))")

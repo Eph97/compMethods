@@ -1,14 +1,14 @@
 include("derivs.jl")
-using Plots
+# using Plots
 using LaTeXStrings
 
-beta = 0.9
+# beta = 0.9
 # k_bar = twoSideDeriv(F,inv(beta))
-k_bar = ((0.9*0.4)/(1 - 0.9+ 0.9* 0.1))^(1/(1-0.4))
+# k_bar = ((0.9*0.4)/(1 - 0.9+ 0.9* 0.1))^(1/(1-0.4))
 # returns grid of N equally-spaced points on interval [xmin, xmax]
-function createGrid(xmin, xmax, N; k_bar=k_bar)
-	xmax *= k_bar
-	xmin *= k_bar
+function createGrid(xmin, xmax, N)
+	# xmax *= k_bar
+	# xmin *= k_bar
     step = (xmax-xmin) / (N-1)
     return collect(xmin:step:xmax)
 end
@@ -25,7 +25,7 @@ function valueFuncIter(U, a; β=0.9, v0=zeros(length(a)), toler=1e-6, maxiter=10
 
         # define new value function by iterating over all grid points
         for i in 1:N
-            rhs = U_ar[i,1:N] .+ β*v0[1:N] # RHS of Bellman equation (for all a_j<=a_i)
+            rhs = U_ar[i,:] .+ β*v0[:] # RHS of Bellman equation (for all a_j<=a_i)
             v1[i], g[i] = findmax(rhs) # simultaneously update value function and get the optimizing j (for given i)
         end
         
@@ -83,33 +83,33 @@ end
 
 
 
-N = 31 # number of grid points
-a = createGrid(0.5, 1.5, N)
-vsol, g = valueFuncIter(U, a)
+# N = 31 # number of grid points
+# k = createGrid(0.5, 1.5, N)
+# vsol, g = valueFuncIter(U, k)
 
 
 
 
-T = 41
-k_t = a[getPath(g, N, T)] # path of cake stock; consumer starts off with a_0=1, which has index N
-# c_t = f.(a_t[1:(T-1)]) .- (1 - delta) .* a_t[2:T]  # path of consumption
-c_t = F.(k_t[1:(T-1)]) .- k_t[2:T]
+# T = 41
+# k_t = k[getPath(g, N, T)] # path of cake stock; consumer starts off with a_0=1, which has index N
+# # c_t = f.(a_t[1:(T-1)]) .- (1 - delta) .* a_t[2:T]  # path of consumption
+# c_t = F.(k_t[1:(T-1)]) .- k_t[2:T]
 
-lifetimeUtil_t = lifetimeU(c_t)
+# lifetimeUtil_t = lifetimeU(c_t)
 
-difference = lifetimeUtil_t - vsol[N]
+# difference = lifetimeUtil_t - vsol[N]
 
 # dist = maximum(abs.(lifetimeUtil_t - vsol
 
-plot_k1 = plot(0:(T-2), [k_t[1:(T-1)] k_t[2:T]], title="N = $N",label=[L"k_t" L"k_{t+1}"], xlabel="a" ,ylabel="a'", legend=:topleft)
+# plot_k1 = plot(0:(T-2), [k_t[1:(T-1)] k_t[2:T]], title="N = $N",label=[L"k_t" L"k_{t+1}"], xlabel="a" ,ylabel="a'", legend=:topleft)
 # savefig(plot_k1, "plot_k1")
 # plot_a1 = plot(a, vsol, title="Value function (N = $N)", xlabel=L"k", ylabel=L"V(k)", legend=false)
-# plot_a2 = plot(a, [a[g] a], label=["Optimal decision rule" "45-degree line"], title="Optimal decision rule (N = $N)", xlabel=L"a", ylabel=L"a'", legend=:topleft)
+# plot_a2 = plot(k, [k[g] k], label=["Optimal decision rule" "45-degree line"], title="Optimal decision rule (N = $N)", xlabel=L"k", ylabel=L"k'", legend=:topleft)
 
 
 # plot_b = plot(0:(T-2), [k_t[1:(T-1)] c_t[1:(T-1)]], label=[L"k_t" L"c_t"], title="Simulation (N = $N)", xlabel=L"t", marker=3)
-plot_c = plot(0:(T-2), c_t[1:(T-1)], label=L"c_t", title="consumption (N = $N)", xlabel=L"t", marker=3)
+# plot_c = plot(0:(T-2), c_t[1:(T-1)], label=L"c_t", title="consumption (N = $N)", xlabel=L"t", marker=3)
 # savefig(plot_c, "plot_c")
 
 #
-plot(plot_k1, plot_c , layout=2, size = (800,600))
+# plot(plot_k1, plot_c , layout=2, size = (800,600))
