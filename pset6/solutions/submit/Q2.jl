@@ -1,14 +1,14 @@
-include("derivs.jl")
-# using Plots
+include("interpolate.jl")
+
+# include("../../pset4/solutions/Q1.jl")
+
+using PyPlot
 using LaTeXStrings
 
-# beta = 0.9
-# k_bar = twoSideDeriv(F,inv(beta))
-# k_bar = ((0.9*0.4)/(1 - 0.9+ 0.9* 0.1))^(1/(1-0.4))
-# returns grid of N equally-spaced points on interval [xmin, xmax]
+β = 0.9; α=0.4; δ=0.1; p = 0.9
+k_bar = ((1/β-(1-δ))/(α))^(1/(α-1)) # analytic steady state (solution to F'(k)=1/β)
+
 function createGrid(xmin, xmax, N)
-	# xmax *= k_bar
-	# xmin *= k_bar
     step = (xmax-xmin) / (N-1)
     return collect(xmin:step:xmax)
 end
@@ -59,10 +59,6 @@ function F(k; alpha=0.4, delta=0.1)
 	return f(k) + (1 - delta)*k
 end
 
-# function objective(a_i, a_j, v_j)
-# 	return utility(F(a_i) - a_j) + (beta* v_j)
-# end
-
 # the consumer's felicity function
 function U(c)
     # we don't allow negative consumption, even if c > -ϵ
@@ -73,43 +69,73 @@ function U(c)
     end
 end
 
-function lifetimeU(c; beta=0.9)
-	total = 0
-	for t in 1:(length(c))
-		total += beta^(t-1) * U(c[t])
-	end
-	return total
+N = 31 # number of grid points
+a = 0.5
+b = 1.5
+k = createGrid(a*k_bar, b*k_bar, N)
+vsol, g = valueFuncIter(U, k)
+
+
+function getContinuousPath(spline, initial::Float64, T)
+	# klo, khi = findind(initial, spline)
+    path = fill(initial, T) # optimal path of cake stock (expressed as an index of k)
+    for t in 2:T
+			path[t] = interp(path[t-1],spline)[1]
+    end
+    return path
 end
 
 
 
-# N = 31 # number of grid points
-# k = createGrid(0.5, 1.5, N)
-# vsol, g = valueFuncIter(U, k)
+decisionRule = k[g]
 
+
+yspline = makespline(k,decisionRule)
 
 
 
 # T = 41
-# k_t = k[getPath(g, N, T)] # path of cake stock; consumer starts off with a_0=1, which has index N
-# # c_t = f.(a_t[1:(T-1)]) .- (1 - delta) .* a_t[2:T]  # path of consumption
-# c_t = F.(k_t[1:(T-1)]) .- k_t[2:T]
-
-# lifetimeUtil_t = lifetimeU(c_t)
-
-# difference = lifetimeUtil_t - vsol[N]
-
-# dist = maximum(abs.(lifetimeUtil_t - vsol
-
-# plot_k1 = plot(0:(T-2), [k_t[1:(T-1)] k_t[2:T]], title="N = $N",label=[L"k_t" L"k_{t+1}"], xlabel="a" ,ylabel="a'", legend=:topleft)
-# savefig(plot_k1, "plot_k1")
-# plot_a1 = plot(a, vsol, title="Value function (N = $N)", xlabel=L"k", ylabel=L"V(k)", legend=false)
-# plot_a2 = plot(k, [k[g] k], label=["Optimal decision rule" "45-degree line"], title="Optimal decision rule (N = $N)", xlabel=L"k", ylabel=L"k'", legend=:topleft)
+# # simulatedPath = getPath(g, N, T)
+# # k_t = k[simulatedPath] # path of cake stock; consumer starts off with a_0=1, which has index N
+# initial = 0.25
+# k_t = getContinuousPath(yspline, initial, T) # path of cake stock; consumer starts off with a_0=1, which has index N
 
 
-# plot_b = plot(0:(T-2), [k_t[1:(T-1)] c_t[1:(T-1)]], label=[L"k_t" L"c_t"], title="Simulation (N = $N)", xlabel=L"t", marker=3)
-# plot_c = plot(0:(T-2), c_t[1:(T-1)], label=L"c_t", title="consumption (N = $N)", xlabel=L"t", marker=3)
-# savefig(plot_c, "plot_c")
+fig1 = figure()
+subplot(121)
+plot(k, vsol) 
+title("Value Function ( N= $N)") 
+xlabel(L"k")
+ylabel(L"v(k)")
 
-#
-# plot(plot_k1, plot_c , layout=2, size = (800,600))
+subplot(122)
+plot(k, decisionRule, label="decision rule") 
+plot(k, k, label="45 deg line") 
+title("Optimal Decision Rule") 
+xlabel(L"k")
+ylabel(L"k'")
+legend()
+fig1.savefig("Q2fig1.png")
+
+
+T = 41
+initial = 0.25
+k_t = getContinuousPath(yspline, initial, T) # path of cake stock; consumer starts off with a_0=1, which has index N
+
+fig2 = figure()
+suptitle("Dynamic Paths", fontsize=16)
+subplot(121)
+plot(0:(T-1), k_t) 
+title("Dynamic Path (initial = $initial)") 
+xlabel(L"t")
+ylabel(L"k")
+
+initial = 5.0
+k_t = getContinuousPath(yspline, initial, T) # path of cake stock; consumer starts off with a_0=1, which has index N
+
+subplot(122)
+plot(0:(T-1), k_t) 
+title("Dynamic Path (initial = $initial)") 
+xlabel(L"t")
+# ylabel(L"k'")
+fig2.savefig("Q2fig2.png")

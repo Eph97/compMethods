@@ -1,2 +1,8 @@
 *.pdf
 
+*.bbl               
+*.run.xml           
+*.synctex.gz        
+*.aux
+
+.DS_Store
