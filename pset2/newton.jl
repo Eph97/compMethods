@@ -16,7 +16,7 @@ function newton(f::Function,x_0;toler=1.0e-4,N=100)
 		x=x_0-(f(x_0)/numderiv(f, x_0))
 		if f(x)==0 || abs(x-x_0)<toler
 			# println("x is $x and the iteration number is $n")
-			return x
+			return f(x), x, n
 		end
 		x_0=x
 		n=n+1
