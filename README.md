@@ -18,5 +18,5 @@ Various ways to simulate economic models or derive numerical solutions
 7. Into to Gauss-Hermite Quadrature and integrating over distributions to solve a simple consumption-savings problem
 
 8. Final Project
-	- Exploring optimal social distancing policy during a pandemic - implementing a discrete-time simulation of [Forbodi et al (2020)](https://www.nber.org/papers/w27059)
+	- Exploring optimal social distancing policy during a pandemic - implementing a continuous-time simulation of [Forbodi et al (2020)](https://www.nber.org/papers/w27059)
 
