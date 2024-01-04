@@ -1,8 +1,5 @@
 # Computational Methods in Economics
 
-
-Various ways to simulate economic models or derive numerical solutions
-
 1. Numerical Derivatives and Root-Finding methods
 
 2. Two-Period consumption-savings using successive approximations and Brent's method.
